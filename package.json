@@ -1,0 +1,31 @@
+{
+  "name": "mathchat",
+  "version": "1.0.0",
+  "description": "let mathematicians communicate ",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"salut\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/opeltre.com/mathchat.git"
+  },
+  "keywords": [
+    "upload",
+    "share",
+    "mathjax",
+    "chat"
+  ],
+  "author": "Olivier Peltre",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/opeltre.com/mathchat/issues"
+  },
+  "homepage": "https://github.com/opeltre.com/mathchat#readme",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "express": "^4.16.3",
+    "formidable": "^1.2.1",
+    "fs": "0.0.1-security"
+  }
+}
