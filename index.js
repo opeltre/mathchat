@@ -4,10 +4,10 @@ const STATIC = ['static'];
 
 const fs = require('fs'),
     express = require('express'),
-    bodyParser = require('body-parser'),
-    formidable = require('formidable');
+    bodyParser = require('body-parser');
 
-const auth = require('./auth')
+const auth = require('./auth'),
+    upload = require('./upload');
 
 var app = express();
 app.use(auth.init);
@@ -23,39 +23,25 @@ app.use(bodyParser.urlencoded({extended:true}));
 var uploadHTML = fs.readFileSync('upload.html');
 var loginHTML = fs.readFileSync('login.html');
 
-// index.html
+/*** /login ***/
+app.get('/login', (req,res) => {
+    res.end(loginHTML)
+});
+app.post('/login',
+    auth.login,
+    (req,res) => res.redirect('/upload')
+);
+
+/*** /upload ***/
+app.get('/upload', (req, res) => {
+    auth.check,
+    res.end(uploadHTML);
+});
 app.post('/upload',
     auth.check,
     upload('tmp')
 );
 
-app.post('/login',
-    auth.login,
-    (req,res) => res.end("welcome!")
-);
-
-app.get('/login', (req,res) => {
-    res.end(loginHTML)
-});
-
-app.get('/upload', (req, res) => {
-    res.end(uploadHTML);
-});
-
-////// listen on 80 as root
+/*** 80 as root ***/
 app.listen(8083);
-
-function upload(dest) {
-    return (req, res) => {
-        var form = new formidable.IncomingForm();
-        form.uploadDir = dest;
-        form.parse(req, (err,fields,files) => {
-            res.end(JSON.stringify({
-                fields: fields,
-                files: files
-            }, null, 1));
-        });
-    }
-}
-
 

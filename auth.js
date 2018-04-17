@@ -49,5 +49,6 @@ exports.init = [
 exports.login = passport.authenticate('local');
 
 exports.check = (req, res, next) => req.user
-    ? next(); 
-    : (res.status(401) && res.end("401"));
+    ? next() 
+    : res.redirect('/login');
+
