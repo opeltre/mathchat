@@ -8,8 +8,8 @@ const auth = require('./auth'),
     upload = require('./upload');
 
 const STATIC = ['static','tmp'],
-    uploadHTML = fs.readFileSync('upload.html'),
-    loginHTML = fs.readFileSync('login.html');
+    uploadHTML = fs.readFileSync('static/upload.html'),
+    loginHTML = fs.readFileSync('static/login.html');
 
 var app = express();
 
