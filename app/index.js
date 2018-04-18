@@ -12,31 +12,36 @@ const STATIC = ['static','tmp'],
     loginHTML = fs.readFileSync('login.html');
 
 var app = express();
-app.use(auth.init);
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended:true}));
+
+app.use(
+    auth.init,
+    bodyParser.json(),
+    bodyParser.urlencoded({extended:true})
+);
 
 /*** static ***/
 STATIC.forEach((dir) => app.use('/'+dir, express.static(dir)))
 
 /*** /login ***/
-app.get('/login', (req,res) => {
-    res.end(loginHTML)
-});
-app.post('/login',
-    auth.login,
-    (req,res) => res.redirect('/upload')
-);
+app.route('/login')
+    .get(
+        (req,res) => res.end(loginHTML)
+    )
+    .post(
+        auth.login,
+        (req,res) => res.redirect('/upload')
+    );
 
 /*** /upload ***/
-app.get('/upload', (req, res) => {
-    auth.check,
-    res.end(uploadHTML);
-});
-app.post('/upload',
-    auth.check,
-    upload('tmp')
-);
+app.route('/upload')
+    .get(
+        auth.check,
+        (req,res) => res.end(uploadHTML)
+    )
+    .post(
+        auth.check,
+        upload('tmp')
+    );
 
 /*** 80 as root ***/
 app.listen(8083);
