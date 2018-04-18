@@ -1,6 +1,8 @@
 /* ./auth.js
-
+  
 authentication module => passport + express-session
+
+usage:
     : app.use(auth.init);
     : app.post('/login', auth.login, ... );
     : app.get('/private', auth.check, ... )
@@ -10,22 +12,21 @@ const session = require('express-session'),
     passport = require('passport'),
     localPass = require('passport-local');
 
-const USRDB = {
-    oli: {id: "oli", pwd: "peltre"}
-}
+const db = require('./rdb/usr.js');
 
-passport.use(new localPass((usr,pwd,then) => {
-    user = USRDB[usr] || false;
-    user = user.pwd == pwd ? user : false;
-    then(null,user);
-}));
+/**** PASSPORT.CONF ****/
 
-passport.serializeUser((user, then) => then(null, user.id));
-
-passport.deserializeUser((id, then) => {
-    user = USRDB[id] || false;
-    then(null, user);
-});
+/* promise wrap */
+const donethen = (promise, done) => promise
+        .then(out => done(null, out))
+        .catch(err => done(err, false));
+/* authentication */
+passport.use(new localPass(
+    (usr, pwd, done) => donethen(db.login(usr, pwd),done)
+));
+/* session */
+passport.serializeUser((user, done) => done(null, user.usr));
+passport.deserializeUser((usr, done) => donethen(db.get(usr), done));
 
 /****  EXPORTS *****/
 
@@ -44,4 +45,3 @@ exports.login = passport.authenticate('local');
 exports.check = (req, res, next) => req.user
     ? next() 
     : res.redirect('/login');
-

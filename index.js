@@ -1,7 +1,5 @@
 // ./server.js
 
-const STATIC = ['static'];
-
 const fs = require('fs'),
     express = require('express'),
     bodyParser = require('body-parser');
@@ -9,19 +7,17 @@ const fs = require('fs'),
 const auth = require('./auth'),
     upload = require('./upload');
 
+const STATIC = ['static','tmp'],
+    uploadHTML = fs.readFileSync('upload.html'),
+    loginHTML = fs.readFileSync('login.html');
+
 var app = express();
 app.use(auth.init);
-
-// express middleware pour parser le body de requetes http:
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:true}));
-//le service statique
-//STATIC.forEach((dir) => app.use('/'+dir, express.static(dir)))
 
-//la base de data
-//var ls = fs.readdirSync('static'); 
-var uploadHTML = fs.readFileSync('upload.html');
-var loginHTML = fs.readFileSync('login.html');
+/*** static ***/
+STATIC.forEach((dir) => app.use('/'+dir, express.static(dir)))
 
 /*** /login ***/
 app.get('/login', (req,res) => {
