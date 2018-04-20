@@ -25,7 +25,7 @@ passport.use(new localPass(
     (usr, pwd, done) => donethen(db.login(usr, pwd),done)
 ));
 /* session */
-passport.serializeUser((user, done) => done(null, user.usr));
+passport.serializeUser((user, done) => done(null, user.usr))
 passport.deserializeUser((usr, done) => donethen(db.get(usr), done));
 
 /****  EXPORTS *****/
@@ -40,8 +40,11 @@ exports.init = [
     passport.session()
 ];
 
-exports.login = passport.authenticate('local');
+exports.login = [
+    passport.authenticate('local'),
+    (req, res) => res.redirect(req.path.replace(/^\/login/, ''))
+];
 
 exports.check = (req, res, next) => req.user
     ? next() 
-    : res.redirect('/login');
+    : res.redirect('/login' + req.path);

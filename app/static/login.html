@@ -2,7 +2,7 @@
     <head>
     </head>
     <body>
-        <form action="/login" method="post">
+        <form id="login" action="/login" method="post">
             <div>
                 <label>Username:</label>
                 <input type="text" name="username"/>
@@ -15,5 +15,12 @@
                 <input type="submit" value="Log In"/>
             </div>
         </form>
+
+    <script type="text/javascript">
+    /**** set action field to right path ****/
+    var form = document.getElementById("login");
+    form.action = window.location.pathname;
+    </script>
+    
     </body>
 </html>

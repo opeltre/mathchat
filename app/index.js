@@ -23,23 +23,21 @@ app.use(
 STATIC.forEach((dir) => app.use('/'+dir, express.static(dir)))
 
 /*** /login ***/
-app.route('/login')
+app.route('/login*')
     .get(
         (req,res) => res.end(loginHTML)
     )
     .post(
         auth.login,
-        (req,res) => res.redirect('/upload')
     );
 
 /*** /upload ***/
 app.route('/upload')
+    .all(auth.check)
     .get(
-        auth.check,
         (req,res) => res.end(uploadHTML)
     )
     .post(
-        auth.check,
         upload('tmp')
     );
 

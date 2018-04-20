@@ -6,7 +6,7 @@ r.connect({host:'localhost', port:'28019'})
 
 var db = r.db('mathchat').table('usr');
 
-exports.login = (usr,pwd,then) => db
+exports.login = (usr,pwd) => db
     .get(usr)
     .run(cxn)
     .then(u => u.pwd == pwd ? u : false)
