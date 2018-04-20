@@ -38,7 +38,8 @@ app.route('/upload')
         (req,res) => res.end(uploadHTML)
     )
     .post(
-        upload('tmp')
+        upload('doc'),
+        (req,res) => res.json(req.file)
     );
 
 /*** 80 as root ***/

@@ -4,17 +4,15 @@ upload middleware => formidable
     : app.post('/upload', upload("tmp/"), ...);
 */
 
-const formidable = require('formidable');
+const multer = require('multer');
 
-module.exports = (dest) => {
-    return (req, res) => {
-        var form = new formidable.IncomingForm();
-        form.uploadDir = dest;
-        form.parse(req, (err,fields,files) => {
-            res.end(JSON.stringify({
-                fields: fields,
-                files: files
-            }, null, 1));
-        });
+var storage = multer.diskStorage({
+    destination: (req, file, done) => {
+        done(null, 'tmp/');
+    },
+    filename: (req, file, done) => {
+        done(null, req.user.usr + Date.now());
     }
-};
+});
+
+module.exports = name => multer({storage: storage}).single(name);
