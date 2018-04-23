@@ -1,15 +1,11 @@
 // ./server.js
 
-const fs = require('fs'),
-    express = require('express'),
+const express = require('express'),
     bodyParser = require('body-parser');
 
 const auth = require('./auth'),
-    upload = require('./upload');
-
-const STATIC = ['static','tmp'],
-    uploadHTML = fs.readFileSync('static/upload.html'),
-    loginHTML = fs.readFileSync('static/login.html');
+    upload = require('./upload'),
+    view = require('./view');
 
 var app = express();
 
@@ -19,23 +15,20 @@ app.use(
     bodyParser.urlencoded({extended:true})
 );
 
-/*** static ***/
-STATIC.forEach((dir) => app.use('/'+dir, express.static(dir)))
-
 /*** /login ***/
 app.route('/login*')
     .get(
-        (req,res) => res.end(loginHTML)
+        view.html('login')
     )
     .post(
-        auth.login,
+        auth.login
     );
 
 /*** /upload ***/
 app.route('/upload')
     .all(auth.check)
     .get(
-        (req,res) => res.end(uploadHTML)
+        view.html('upload')
     )
     .post(
         upload('doc'),

@@ -1,4 +1,4 @@
-app/tmp/*
-!app/tmp/readme.md
+files/*
+!files/readme.md
 node_modules
 *.swp
