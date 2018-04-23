@@ -1,19 +1,18 @@
-const r = require('rethinkdb');
+// /rdb/usr.js 
+// user credentials --> promises
 
-var cxn = null;
-r.connect({host:'localhost', port:'28019'})
-    .then(c => cxn = c);
+const r = require('./r');
 
-var db = r.db('mathchat').table('usr');
+var db = r.db.table('usr');
 
 exports.login = (usr,pwd) => db
     .get(usr)
-    .run(cxn)
-    .then(u => u.pwd == pwd ? u : false)
+    .do(u => r.branch(u('pwd').eq(pwd), u, false))
+    .run(r.cxn)
     .catch(console.log);
 
 exports.get = (usr) => db
     .get(usr)
-    .run(cxn)
+    .run(r.cxn)
     .catch(console.log);
 
