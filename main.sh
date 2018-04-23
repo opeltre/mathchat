@@ -1,3 +1,3 @@
 #!/bin/env sh
-cd app
+cd server 
 pm2 start app.config.js
