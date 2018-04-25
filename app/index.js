@@ -19,6 +19,8 @@ app.use(
     bodyParser.json(),
     bodyParser.urlencoded({extended:true})
 );
+app.route('/')
+    .get(view.pug('index', req => Promise.resolve({user: req.user})));
 
 /*** /login ***/
 app.route('/login*')
