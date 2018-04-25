@@ -1,0 +1,14 @@
+html
+  head
+    link(rel='stylesheet', href='/views/style/main.css')
+    title cloud
+  body
+    
+    h1 files
+    
+    div#files
+      each f in files
+        button mv
+        button del
+        a(href=`/files/${f.href}`, download=f.name)= f.name
+        br

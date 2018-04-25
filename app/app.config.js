@@ -3,8 +3,7 @@
 module.exports = {
     apps: [{
         name: 'mathchat',
-        watch: ['app/', 'rdb/', 'surfer/'],
-        ignore_watch: ['app/tmp/'],
+        watch: ['./', '../rdb', '../lib', '../views'],
         script: './index.js'
     }]
 };
