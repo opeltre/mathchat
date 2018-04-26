@@ -17,7 +17,7 @@ exports.put = (file, user) => db
 exports.loaded = (file, user) => db
     .get(file.filename)
     .update({
-        href: `files${user.usr}/${file.filename}`,
+        href: `${user.usr}/${file.filename}`,
         size: file.size
     })
     .run(r.cxn)

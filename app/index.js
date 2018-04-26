@@ -12,7 +12,7 @@ const auth = require('./auth'),
 
 const STATIC = ['../lib','../views'];
 
-var app = express();
+var app = express.Router();
 
 app.use(
     auth.init,
@@ -50,5 +50,4 @@ STATIC.forEach(dir => app.use(
     express.static(path.join(__dirname, dir))
 ));
 
-/*** 80 as root ***/
-app.listen(8083);
+module.exports = app;

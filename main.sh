@@ -1,3 +1,2 @@
 #!/bin/env sh
-cd app 
-pm2 start app.config.js
+pm2 start main.config.js

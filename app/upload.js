@@ -4,12 +4,13 @@ upload with multer
     : app.post('/upload', upload(<fieldname>), ...);
 */
 
-const multer = require('multer');
-const db = require('../rdb/files.js');
+const multer = require('multer'),
+    path = require('path'),
+    db = require('../rdb/files.js');
 
 var storage = multer.diskStorage({
     destination: (req, file, done) => {
-        done(null, '../files/'+ req.user.usr);
+        done(null, path.join(__dirname, '../files/'+ req.user.usr));
     },
     filename: (req, file, done) => {
         console.log('put file:');
