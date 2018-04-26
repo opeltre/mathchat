@@ -1,0 +1,16 @@
+html
+  head
+    link(rel='stylesheet' href='/views/style/main.css')
+  body
+    h1 upload
+   
+    form(action="/upload" enctype="multipart/form-data" method='post')
+      
+      label.upload(for='upload') select
+      input#upload(type='file' name='doc')
+
+      input.upload(type="submit" value='upload')
+    
+    h1 cloud
+    a(href='/cloud') browse files 
+

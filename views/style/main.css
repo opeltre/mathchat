@@ -1,11 +1,17 @@
 a {
     text-decoration: none;
-    color: #000;
+    color: #222;
 }
 
-button {
+button, .upload {
     border: 1px solid black;
     background-color: #fff;
+    margin: 1px;
+    padding: 2px;
+}
+
+#upload {
+    display: none;
 }
 
 html {

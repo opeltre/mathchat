@@ -24,7 +24,7 @@ exports.loaded = (file, user) => db
     .catch(console.log);
 
 exports.get = (path, user) => db
-    .filter(x => x('usr').eq(user.usr))
+    //.filter(x => x('usr').eq(user.usr))
     .run(r.cxn)
     .then(c => c.toArray())
     .then(a => ({files: a}))

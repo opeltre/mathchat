@@ -20,7 +20,7 @@ app.use(
     bodyParser.urlencoded({extended:true})
 );
 app.route('/')
-    .get(view.pug('index', req => Promise.resolve({user: req.user})));
+    .get(view.pug('index', req => ({user: req.user}) ));
 
 /*** /login ***/
 app.route('/login*')
@@ -30,7 +30,8 @@ app.route('/login*')
 /*** /upload ***/
 app.route('/upload')
     .all(auth.check)
-    .get(view.html('upload'))
+    .get(view.pug('upload', req => ({})))
+//    .get(view.html('upload'))
     .post(upload('doc'));
 
 /*** /cloud ***/
