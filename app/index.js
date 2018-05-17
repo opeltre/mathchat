@@ -10,7 +10,7 @@ const auth = require('./auth'),
     view = require('./view'),
     files = require('../rdb/files');
 
-const STATIC = ['../lib','../views'];
+const STATIC = ['../lib','../views', '../static', '../static/webfonts'];
 
 var app = express.Router();
 
@@ -20,7 +20,7 @@ app.use(
     bodyParser.urlencoded({extended:true})
 );
 app.route('/')
-    .get(view.pug('index', req => ({user: req.user}) ));
+    .get(view.pug('index', req => ({user: req.user})));
 
 /*** /login ***/
 app.route('/login*')
@@ -30,14 +30,18 @@ app.route('/login*')
 /*** /upload ***/
 app.route('/upload')
     .all(auth.check)
-    .get(view.pug('upload', req => ({})))
+    .get(view.pug('upload', {})) 
 //    .get(view.html('upload'))
     .post(upload('doc'));
 
 /*** /cloud ***/
 app.route('/cloud*')
     .all(auth.check)
-    .get(view.pug('cloud', req => files.get(req.params[0], req.user)));
+    .get(view.pug('cloud', 
+        req => ({user: req.user}),
+        req => files.get(req.params[0], req.user)
+            .then(a => ({files: a}))
+    ));
 
 /*** /files ***/
 app.route('/files*')

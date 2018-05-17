@@ -1,18 +1,43 @@
 a {
     text-decoration: none;
-    color: #222;
+    color: #e56;
 }
 
-button, .upload {
+.flex-h {
+    display: flex;
+    flex-flow: row;
+}
+.flex-v {
+    display: flex;
+    flex-flow: column;
+}
+.grow {
+    flex-grow: 1;
+}
+.title {
+    font-family: 'RetroscapeRegular';
+    font-weight: normal;
+    font-style: normal;
+}
+
+html * {
+    font-family: 'GlacialIndifferenceRegular';
+    font-weight: normal;
+    font-style: normal;
+}
+
+button, .upload-btn {
     border: 1px solid black;
     background-color: #fff;
     margin: 1px;
     padding: 2px;
 }
 
-#upload {
+.hide{
     display: none;
 }
+
+
 
 html {
     background-color: #fff;

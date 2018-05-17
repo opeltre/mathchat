@@ -9,22 +9,31 @@ const multer = require('multer'),
     db = require('../rdb/files.js');
 
 var storage = multer.diskStorage({
+    
     destination: (req, file, done) => {
         done(null, path.join(__dirname, '../files/'+ req.user.usr));
     },
-    filename: (req, file, done) => {
-        console.log('put file:');
-        console.log(file);
-        db.put(file, req.user)
-            .then(id => done(null, id))
-            .catch(err => done(err, false));
-    }
+    
+    /* 1: db.put */
+    filename: (req, file, done) => db
+        .put(file, req.user)
+        .then(id => done(null, id))
+        .catch(err => done(err, false))
+
 });
 
 module.exports = name => [
+    
     multer({storage: storage}).single(name),
+    
+    /* 2: db.loaded */
     (req, res, next) => db
         .loaded(req.file, req.user)
         .then(() => next()),
-    (req, res) => res.json(req.file),
+    
+    (req, res, next) => db
+        .getOne(req.file.filename)
+        .then(f => res.json(f))
+
+
 ];

@@ -6,20 +6,20 @@ just send the html!
 
 pug it...
     : app.route('/files')
-    :   .get(view.pug('cloud', req => dataPromise(req)));
+    :   .get(view.pug('cloud', req => dataPromise(req), data, ... ));
 */
 
 const path = require('path'),
-    pug = require('pug');
+    pug = require('pug'),
+    promises = require('./promises');
 
 const dir = path.join(__dirname, '../views');
 
 exports.html = (name) => 
     (req, res) => res.sendFile(path.join(dir, name + '.html'));
 
-exports.pug = (name, promise) =>
-    (req, res) => Promise.resolve()
-        .then(() => promise(req))
+exports.pug = (name, ...objs) =>
+    (req, res) => promises(req).object(...objs)
         .then(data => res.send(pug.renderFile(
             path.join(dir, name + '.pug'),
             data

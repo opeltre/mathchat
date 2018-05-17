@@ -1,8 +1,7 @@
 // rdb/files.js
 
-const r = require('./r');
-
-const db = r.db.table('files');
+const r = require('./r'),
+    db = r.db.table('files');
 
 exports.put = (file, user) => db
     .insert({
@@ -27,5 +26,8 @@ exports.get = (path, user) => db
     //.filter(x => x('usr').eq(user.usr))
     .run(r.cxn)
     .then(c => c.toArray())
-    .then(a => ({files: a}))
     .catch(console.log);
+
+exports.getOne = (path) => db
+    .get(path)
+    .run(r.cxn);
