@@ -1,6 +1,6 @@
 a {
     text-decoration: none;
-    color: #e56;
+    color: #a54;
 }
 
 .flex-h {
@@ -18,6 +18,14 @@ a {
     font-family: 'RetroscapeRegular';
     font-weight: normal;
     font-style: normal;
+}
+#files, #upload form {
+    margin: 5px;
+    padding: 15px;
+    border: 1px solid #aaa;
+}
+#files .usr {
+    color: #54a;
 }
 
 html * {

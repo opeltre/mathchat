@@ -36,7 +36,7 @@ app.route('/upload')
 
 /*** /cloud ***/
 app.route('/cloud*')
-    .all(auth.check)
+    //.all(auth.check)
     .get(view.pug('cloud', 
         req => ({user: req.user}),
         req => files.get(req.params[0], req.user)

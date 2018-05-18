@@ -23,14 +23,14 @@ html
        
       div#files
         each f in files
-          button
-            i.fa.fa-trash-alt
-          span
-            a(href=`/files/${f.href}`, download=f.name)
-              i.fa.fa-cloud-download-alt
-              | #{f.name}
-          span(style={color:'blue'})= ` ${f.usr}`
-          br
+          .flex-h
+            button
+              i.fa.fa-trash-alt
+            span.grow
+              a(href=`/files/${f.href}`, download=f.name)
+                i.fa.fa-cloud-download-alt
+                | #{f.name}
+            span.usr #{f.usr}
     
     #upload
       h2 upload
