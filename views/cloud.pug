@@ -9,14 +9,20 @@ html
     
     #header.flex-h 
       h1.title MATHCHAT 
-      span.grow 
+      span.grow
+      span
+        i.fa.fa-cloud
+        | cloud
+      span#inbox
+        i.far.fa-comment
+        | chat
       span#user 
         if user
           i.fa.fa-user
           | #{user.usr}
         else
           i.far.fa-user
-          a(href='/login/') login
+          a(href='/login/cloud') login
     
     #cloud
       h2 cloud 
@@ -31,6 +37,8 @@ html
                 i.fa.fa-cloud-download-alt
                 | #{f.name}
             span.usr #{f.usr}
+
+        a(href='http://peltre.xyz:9000/bib/brst.pdf') brst
     
     #upload
       h2 upload

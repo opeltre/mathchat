@@ -24,7 +24,7 @@ app.route('/')
 
 /*** /login ***/
 app.route('/login*')
-    .get(view.html('login'))
+    .get(view.pug('login'))
     .post(auth.login);
 
 /*** /upload ***/

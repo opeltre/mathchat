@@ -1,0 +1,34 @@
+html
+  head
+    link(rel='stylesheet' href='/static/fa/fontawesome-all.css')
+    link(rel='stylesheet' href='/views/style/main.css')
+    link(rel='stylesheet' href='/views/style/login.css')
+    link(rel='stylesheet' href='/views/style/fonts.css')
+    <link rel="stylesheet" media="screen" href="https://fontlibrary.org/face/retroscape" type="text/css"/>
+    <link rel="stylesheet" media="screen" href="https://fontlibrary.org/face/glacial-indifference" type="text/css"/> 
+
+  body.flex-h
+    span.grow.center 
+      h1.title MATH
+
+    form#login(action='login' method='post')
+      fieldset
+        legend(align='right') login
+        div
+          label(for='usr') usr:
+          input(type='text' name='username')
+        div
+          label(for='pwd') pwd:
+          input(type='password' name='password')
+        div.right
+          input(type='submit' value='>')
+
+    span.grow.center 
+      h1.title CHAT
+
+    script
+      | /**** set action field to right path ****/
+      | var form = document.getElementById("login");
+      | form.action = window.location.pathname;
+
+
