@@ -2,9 +2,6 @@ a {
     text-decoration: none;
     color: #a54;
 }
-i {
-    margin: 3px;
-}
 
 .flex-h {
     display: flex;
@@ -21,12 +18,6 @@ i {
     font-family: 'RetroscapeRegular';
     font-weight: normal;
     font-style: normal;
-}
-.center {
-    text-align: center;
-}
-#header span {
-    margin: 5px;
 }
 #files, #upload form {
     margin: 5px;
