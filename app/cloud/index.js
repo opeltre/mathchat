@@ -15,23 +15,23 @@ cloud.view = view('cloud',
         .then(f => ({files: f || []}))
 );
 
-cloud.upload = upload;
+cloud.upload = upload('doc', 'fs');
 
-cloud.download = download;
+cloud.download = download('fs');
 
 cloud.app = index => {
     var app = express.Router();
 
     app.route('/upload')
         .all(auth.check)
-        .post(cloud.upload('doc', 'fs'));
+        .post(cloud.upload);
 
     app.route('/view*')
         .get(index.include('win', cloud.view))
 
     app.route('/download*')
-        .all(auth.check)
-        .get(cloud.download('fs'));
+//        .all(auth.check)
+        .get(cloud.download);
 
     return app;
 }
