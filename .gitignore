@@ -1,4 +1,4 @@
-files/*
-!files/readme.md
+app/cloud/fs*
+!app/cloud/fs/readme.md
 node_modules
 *.swp

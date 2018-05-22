@@ -1,7 +1,7 @@
 // /rdb/usr.js 
 // user credentials --> promises
 
-const r = require('./r');
+const r = require('../rdb.js');
 
 var db = r.db.table('usr');
 

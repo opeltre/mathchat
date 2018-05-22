@@ -1,0 +1,14 @@
+{
+  "name": "view",
+  "version": "1.0.0",
+  "description": "pug renderer with dynamic inclusion",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo salut"
+  },
+  "keywords": [
+    "pug"
+  ],
+  "author": "Olivier Peltre",
+  "license": "ISC"
+}

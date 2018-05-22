@@ -1,0 +1,29 @@
+html
+  head
+    include head
+    link(rel='stylesheet' href='/view/style/login.css')
+
+  body.flex-h
+    span.grow.center 
+      h1.title MATH
+
+    form#login(action='login' method='post')
+      fieldset
+        legend(align='right') login
+        div
+          label(for='usr') usr:
+          input(type='text' name='username')
+        div
+          label(for='pwd') pwd:
+          input(type='password' name='password')
+        div.right
+          input(type='submit' value='>')
+
+    span.grow.center 
+      h1.title CHAT
+
+    script
+      | /**** set action field to right path ****/
+      | var form = document.getElementById("login");
+      | form.action = window.location.pathname;
+

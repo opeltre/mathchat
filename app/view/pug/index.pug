@@ -1,0 +1,23 @@
+html
+  head
+    include head
+  body
+    
+    #header.flex-h 
+      h1.title MATHCHAT 
+      span.grow
+      span
+        i.fa.fa-cloud
+        | cloud
+      span#inbox
+        i.far.fa-comment
+        | chat
+      span#user 
+        if user
+          i.fa.fa-user
+          | #{user.usr}
+        else
+          i.far.fa-user
+            a(href='/login/cloud') login
+
+    #win !{win}

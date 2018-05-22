@@ -12,7 +12,7 @@ const session = require('express-session'),
     passport = require('passport'),
     localPass = require('passport-local');
 
-const db = require('../rdb/usr.js');
+const db = require('./usr');
 
 /**** PASSPORT.CONF ****/
 

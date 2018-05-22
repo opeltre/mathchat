@@ -1,6 +1,6 @@
 // rdb/files.js
 
-const r = require('./r'),
+const r = require('../rdb.js'),
     db = r.db.table('files');
 
 exports.put = (file, user) => db
