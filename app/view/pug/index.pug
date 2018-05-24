@@ -8,16 +8,16 @@ html
       span.grow
       span
         i.fa.fa-cloud
-        | cloud
+        a(href='/cloud/') cloud
       span#inbox
         i.far.fa-comment
-        | chat
+        a(href='/chat/') chat
       span#user 
         if user
           i.fa.fa-user
           | #{user.usr}
         else
           i.far.fa-user
-            a(href='/login/cloud/view/') login
+          a(href='/login/cloud/view/') login
 
     #win !{win}

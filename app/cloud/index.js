@@ -22,12 +22,15 @@ cloud.download = download('fs');
 cloud.app = index => {
     var app = express.Router();
 
+    app.route('/')
+        .get((req, res) => res.redirect(req.baseUrl + '/view'))
+
+    app.route('/view*')
+        .get(index().include('win', cloud.view))
+
     app.route('/upload')
         .all(auth.check)
         .post(cloud.upload);
-
-    app.route('/view*')
-        .get(index.include('win', cloud.view))
 
     app.route('/download*')
 //        .all(auth.check)
