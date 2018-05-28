@@ -3,7 +3,8 @@ const express = require('express'),
     auth = require('auth'),
     view = require('view');
 
-const db = require('./db');
+const io = require('./io'),
+    db = require('./db');
 
 var chat = {};
 
@@ -11,7 +12,11 @@ chat.view = view('chat',
     req => db.get(0)
 );
 
-chat.app = (index, io) => {
+chat.listen = io;
+
+chat.app = (index, server) => {
+    io(server);
+    
     var app = express.Router();
     
     app.route('/')
@@ -27,6 +32,5 @@ chat.app = (index, io) => {
 chat.post = (req, res) => db
     .put(0, req.user.usr, req.body)
     .then(() => res.send('posted'));
-    
 
 module.exports = chat;

@@ -10,6 +10,7 @@ exports.html = (name) =>
 
 const path = require('path'),
     pug = require('pug'),
+    runtime = require('./runtime'),
     promises = require('./promises');
 
 const dir = path.join(__dirname, 'pug');

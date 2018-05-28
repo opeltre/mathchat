@@ -1,41 +1,65 @@
+script(src='/view/run/msgTemplate.js')
+script(src='/static/socket.io/socket.io.js')
+  
 #chat
 
   h2 chat
 
   #msgs 
-    each p in msgs
-      - var side = p.usr == 'oli' ? 'right' : 'left';
+    mixin msg(m)
+      - var side = m.usr == 'oli' ? 'right' : 'left';
       div(class="msg "+side)
         .msg-head
-          span.poster= p.usr
-          span.date= p.date
+          span.date= m.date
+          span.poster= m.usr
         .msg-body
-          | #{p.body}
+          | #{m.body}
+    each m in msgs
+      +msg(m)
   
   #write
     textarea#txt
 
-    button#send(onclick="send()")
+    button#send(onclick="chat.send()")
       i.fa.fa-paper-plane
       | send
 
 script.
-  var send = () => {
-    var txt = document.getElementById('txt');
-    ajax().post(window.location, {body: txt.value})
-  }
+  var chat = (function () {
 
+    var my = {};
+    
+    my.socket = io()
+      .on('msg', m => my.read(m));
 
+    my.send = () => ajax()
+      .post(window.location, {
+        body: my.select('txt').value
+      });
 
+    my.read = m => my
+      .select('msgs')
+      .innerHTML += msgTemplate({m: JSON.parse(m)});
 
+    my.select = id => document.getElementById(id);
+
+    return my;
+
+  })();
 
 style.
   .msg-body {
       padding: 15px;
-      border: 1px solid #a6a;
+      border: 1px solid #aaf;
   }
-  .msg-head {
-      color: #999;
+  .msg-head span {
+    padding: 5px;
+  }
+  .date {
+    color: #999;
+  }
+  .poster {
+    color: #66d;
   }
   #msgs {
     margin: 0px 60px;
@@ -44,4 +68,3 @@ style.
     margin: 10px 60px;
     text-align: right;
   }
-

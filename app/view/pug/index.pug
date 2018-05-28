@@ -18,6 +18,16 @@ html
           | #{user.usr}
         else
           i.far.fa-user
-          a(href='/login/cloud/view/') login
+          a#login(href='/login') login
+
 
     #win !{win}
+
+    script.
+      (function () {
+        var login = document
+          .getElementById('login');
+        login.href += window
+          .location
+          .pathname
+      })();

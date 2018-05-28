@@ -2,7 +2,6 @@
 
 const express = require('express'),
     path = require('path'),
-    io = require('socket.io'),
     bodyParser = require('body-parser');
 
 const auth = require('auth'),
@@ -13,7 +12,7 @@ const auth = require('auth'),
 module.exports = server => {
     var app = express.Router(),
         index = () => view('index', req => ({user: req.user})),
-        STATIC = ['../static', '../lib', 'view/style'];
+        STATIC = ['../static', '../lib', 'view/style', 'view/run'];
 
     app.use(
         auth.init,
@@ -31,7 +30,7 @@ module.exports = server => {
 
     app.use('/cloud', cloud.app(index));
 
-    app.use('/chat', chat.app(index, io(server)));
+    app.use('/chat', chat.app(index, server));
 
     /*** static ***/
     STATIC.forEach(dir => app.use(
