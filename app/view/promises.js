@@ -3,12 +3,14 @@
 module.exports = Promises;
 function Promises (...args) {
 
+    var args = args;
+
     function my (p) {
-        return Promise.resolve(
-            typeof p === 'function'
-                ? p(...args)
-                : p
-        );
+        return Promise.resolve(args)
+            .then(typeof p === 'function'
+                ? args => p(...args)
+                : () => p
+            );
     }
 
     my.object = (...objs) => Promise
@@ -31,3 +33,4 @@ function Promises (...args) {
  :  ); 
    >> Promise.pending({...})
 */
+

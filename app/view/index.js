@@ -17,13 +17,15 @@ const dir = path.join(__dirname, 'pug');
 
 function view (src, ...params) {
 
-    var params = params;
+    var params = params || {};
 
     function my (req, res) {
-        my.render(req)
+        return my.render(req)
             .then(html => res.send(html))
-            .catch(console.log);
+            .catch(err => my.oops(req, res, err));
     } 
+
+    my.oops = () => console.log('oops');
 
     my.pugc = pug.compileFile(path.join(dir, src + '.pug'))
     
@@ -36,6 +38,17 @@ function view (src, ...params) {
         return my;
     }
 
+    my.catch = (handler) => {
+        console.log('changing')
+        my.oops = handler;
+        return my;
+    }
+
+    my.dothen = f => {
+        dothen = f;
+        return my;
+    }
+
     my.include = (key, view) => {
         param = {};
         params.push(req => view
@@ -43,6 +56,12 @@ function view (src, ...params) {
             .then(html => param[key] = html)
             .then(() => param)
         );
+        /*
+        my.catch((req, res, err) => {
+            view.oops(req, res, err);
+            my.oops(req, res, err);
+        });
+        */
         return my;
     }
 

@@ -29,8 +29,12 @@ script.
 
     var my = {};
     
+    my.room = window.location.pathname
+      .replace(/^.*\/chat\//, '')
+
     my.socket = io()
-      .on('msg', m => my.read(m));
+      .on('msg', m => my.read(m))
+      .emit('subscribe', my.room);
 
     my.send = () => ajax()
       .post(window.location, {
@@ -39,7 +43,7 @@ script.
 
     my.read = m => my
       .select('msgs')
-      .innerHTML += msgTemplate({m: JSON.parse(m)});
+      .innerHTML += msgTemplate({m:m});
 
     my.select = id => document.getElementById(id);
 

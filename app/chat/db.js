@@ -6,14 +6,6 @@ const stamp = (msg, usr) => Object.assign(msg, {
     usr: usr
 });
 
-const onchange = (id, listener) => db
-    .get(id)
-    .changes()
-    .run(r.cxn)
-    .then(cursor => cursor.each(
-        (err, x) => listener(x)
-    ));
-
 exports.put = (id, usr, msg) => db
     .get(id)
     .update(
@@ -24,9 +16,23 @@ exports.put = (id, usr, msg) => db
 exports.get = (id, user) => db
     .get(id)
     .pluck('msgs')
-    .run(r.cxn);
+    .run(r.cxn)
 
-exports.change = (id, listener) => r
-    .connected
-    .then(() => onchange(id, listener));
+const getChannels = () => db
+    .pluck('id')
+    .run(r.cxn)
+    .then(c => c.toArray());
+
+exports.getChannels = () => r.connected
+    .then(getChannels)
+
+const onchange = (listener) => db
+    .changes()
+    .run(r.cxn)
+    .then(cursor => cursor.each(
+        (err, x) => listener(x)
+    ));
+
+exports.change = (listener) => r.connected
+    .then(() => onchange(listener));
     
