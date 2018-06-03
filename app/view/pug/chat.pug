@@ -3,7 +3,7 @@ script(src='/static/socket.io/socket.io.js')
   
 #chat
 
-  h2 chat
+  h2 chat 
 
   #msgs 
     mixin msg(m)
@@ -39,13 +39,16 @@ script.
     my.send = () => ajax()
       .post(window.location, {
         body: my.select('txt').value
-      });
+      })
+      .then(my.flush);
 
     my.read = m => my
       .select('msgs')
       .innerHTML += msgTemplate({m:m});
 
     my.select = id => document.getElementById(id);
+    
+    my.flush = () => my.select('txt').value = "";
 
     return my;
 

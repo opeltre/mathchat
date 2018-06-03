@@ -18,13 +18,21 @@ exports.get = (id, user) => db
     .pluck('msgs')
     .run(r.cxn)
 
-const getChannels = () => db
-    .pluck('id')
+const getChannels = (user) => db
+    .getAll(user, {index: 'users'})
     .run(r.cxn)
-    .then(c => c.toArray());
+    .then(c => c.toArray())
 
-exports.getChannels = () => r.connected
-    .then(getChannels)
+exports.getChannels = (user) => Promise
+    .all([user, 'public'].map(getChannels))
+    .then(([channels, pubchannels]) => ({channels, pubchannels}));
+
+exports.putChannel = (users, name) => db
+    .insert({
+        users,
+        name,
+        msgs: []
+    });
 
 const onchange = (listener) => db
     .changes()

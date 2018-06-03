@@ -31,7 +31,7 @@ function view (src, ...params) {
     
     my.render = (req) => promises(req)
         .object(...params)
-        .then(data => my.pugc(data));
+        .then(data => my.pugc(data))
 
     my.use = (param) => {
         params.push(param);
