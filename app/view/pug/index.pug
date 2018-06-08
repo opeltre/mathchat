@@ -22,12 +22,14 @@ html
 
 
     #win !{win}
-
+    script(src='/lib/cloud.js')
     script.
       (function () {
         var login = document
           .getElementById('login');
-        login.href += window
-          .location
-          .pathname
+        if (login) {
+          login.href += window
+            .location
+            .pathname
+        }
       })();

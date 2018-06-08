@@ -36,6 +36,13 @@ cloud.app = index => {
 //        .all(auth.check)
         .get(cloud.download);
 
+    /** with vdom **/
+    app.route('/ajax*')
+        .get((req, res) => db
+            .get(req.params[0], req.user)
+            .then(files => res.json(files))
+        );
+
     return app;
 }
 
