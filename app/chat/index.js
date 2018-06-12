@@ -8,53 +8,48 @@ const io = require('./io'),
 
 var chat = {};
 
-chat.app = (index, server) => {
+chat.app = (server) => {
     
     io(server);
-    
     var app = express.Router();
-    
-    app.route('/*')
-        .get(chat.get(index))
+
+    app.route('/ajax/*')
+        .get(chat.get)
         .post(
             auth.check,
             chat.post
-        )
+        );
+
+    app.route('/t/*')
+        .get(chat.talk);
 
     return app;
 }
 
 const usr = req => req.user ? req.user.usr : 'public'; 
+const logthen = x => {console.log(x); return x}
 
 chat.listen = io;
 
-chat.view = view('chat')
-    .use(req => db.get(req.params[0]))
+chat.get = 
+    (req, res) => db
+        .get(req.params[0])
+        .then(logthen)
+        .then(msgs => res.json(msgs));
 
-const logthen = x => {console.log(x) ; return x}
-
-chat.roomView = view('rooms')
-    .use(req => db.getChannels(usr(req)).then(logthen))
-
-chat.get = index => index()
-    .include('win', chat.view)
-    .catch(index()
-        .include('win', chat.roomView)
-        .catch(console.log)
-    );
-
-chat.post = (req, res) => db
+chat.post = 
+    (req, res) => db
         .put(req.params[0], usr(req), req.body)
         .then(() => res.send('posted'));
 
-module.exports = chat;
+chat.talk = 
+    (req, res) => {
+        console.log('talk at: '+req.params[0]);
+        res.sendFile('/srv/http/mathchat/lib/chat.html');
+    }
 
-/*
-chat.view = index()
-    .include('win',
-        view('chat').use(req => db.get(req.params[0]))
-    )
-    .catch(index().include('win',
-        view('rooms').use(req => db.getChannels(req.user.usr))
-    );
-*/
+chat.channel = 
+    (req, res) => res
+        .sendFile('/srv/http/mathchat/lib/channels.html');
+       
+module.exports = chat;

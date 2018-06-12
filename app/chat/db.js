@@ -17,6 +17,7 @@ exports.get = (id, user) => db
     .get(id)
     .pluck('msgs')
     .run(r.cxn)
+    .then(d => d.msgs)
 
 const getChannels = (user) => db
     .getAll(user, {index: 'users'})

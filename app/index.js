@@ -30,7 +30,7 @@ module.exports = server => {
 
     app.use('/cloud', cloud.app(index));
 
-    app.use('/chat', chat.app(index, server));
+    app.use('/chat', chat.app(server));
 
     /*** static ***/
     STATIC.forEach(dir => app.use(
