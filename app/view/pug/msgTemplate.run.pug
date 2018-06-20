@@ -1,9 +1,0 @@
-mixin msg(m)
-  - var side = m.usr == 'oli' ? 'right' : 'left';
-  div(class="msg "+side)
-    .msg-head
-      span.date= m.date
-      span.poster= m.usr
-    .msg-body
-      | #{m.body}
-+msg(m)

@@ -1,69 +1,61 @@
-/* app/view.js
+const fs = require('fs');
+const { JSDOM } = require('jsdom');
 
-just send the html!
-    : app.route('/')
-    :   .get(view.html('index'));
+var ifRelative = (f) => 
+    name => ( name[0] === '/' || /^https?:\/\//.test(name) )
+        ? name 
+        : f(name);
 
-exports.html = (name) => 
-    (req, res) => res.sendFile(path.join(dir, name + '.html'));
-*/
+var defaultPaths = {
+    style : ifRelative(name => '/style/'+ name + '.css'), 
+    script : ifRelative(name => '/lib/' + name + '.js')
+};
 
-const path = require('path'),
-    pug = require('pug'),
-    runtime = require('./runtime'),
-    promises = require('./promises');
+//  view :: html -> ((req, res) -> {...})
 
-const dir = path.join(__dirname, 'pug');
-
-function view (src, ...params) {
-
-    var params = params || {};
-
-    function my (req, res) {
-        return my.render(req)
-            .then(html => res.send(html))
-            .catch(err => my.oops(req, res, err));
-    } 
-
-    my.oops = () => console.log('oops');
-
-    my.pugc = pug.compileFile(path.join(dir, src + '.pug'))
+function view (html, paths) {
     
-    my.render = (req) => promises(req)
-        .object(...params)
-        .then(data => my.pugc(data))
+    var paths = paths || defaultPaths,
+        scripts = [],
+        sheets = [];
 
-    my.use = (param) => {
-        params.push(param);
-        return my;
+    var dom = new JSDOM(html || ''),
+        doc = dom.window.document;
+    
+    function my (req, res) {
+        res.send(dom.serialize());
     }
 
-    my.catch = (handler) => {
-        console.log('changing')
-        my.oops = handler;
-        return my;
-    }
-
-    my.dothen = f => {
-        dothen = f;
-        return my;
-    }
-
-    my.include = (key, view) => {
-        param = {};
-        params.push(req => view
-            .render(req)
-            .then(html => param[key] = html)
-            .then(() => param)
-        );
-        /*
-        my.catch((req, res, err) => {
-            view.oops(req, res, err);
-            my.oops(req, res, err);
+    my.style = (...sheets) => {
+        sheets.forEach(s => {
+            var sheet = doc.createElement('link');
+            sheet.rel = "stylesheet";
+            sheet.href = paths.style(s);
+            doc.head.appendChild(sheet);
         });
-        */
         return my;
     }
+
+    my.script = (...srcs) => {
+        srcs.forEach( s => {
+            var node = doc.head;
+                script = doc.createElement('script');
+            script.src = paths.script(s);
+            node.appendChild(script);
+        });
+        return my;
+    }
+
+    my.dom = (arg) => {
+        if (!arg) 
+            return dom;
+        dom = arg;
+        doc = dom.window.document;
+        return my;
+    }
+
+    my.clone = () => 
+        view(dom.serialize(), paths);
 
     return my;
 }

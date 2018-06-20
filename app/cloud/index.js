@@ -1,7 +1,6 @@
 const express = require('express'),
     path = require('path'),
-    auth = require('auth'),
-    view = require('view');
+    auth = require('auth');
 
 const db = require('./db'),
     upload = require('./upload'),
@@ -9,24 +8,18 @@ const db = require('./db'),
 
 var cloud = {};
 
-cloud.view = view('cloud',
-    req => {user: req.user},
-    req => db.get(req.params[0], req.user)
-        .then(f => ({files: f || []}))
-);
-
 cloud.upload = upload('doc', 'fs');
 
 cloud.download = download('fs');
 
-cloud.app = index => {
+cloud.app = view => {
     var app = express.Router();
 
     app.route('/')
         .get((req, res) => res.redirect(req.baseUrl + '/view'))
 
     app.route('/view*')
-        .get(index().include('win', cloud.view))
+        .get(view().script('cloud'))
 
     app.route('/upload')
         .all(auth.check)

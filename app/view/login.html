@@ -1,0 +1,38 @@
+<html>
+    <head>
+    </head>
+    <body class="flex-h">
+
+        <span class="grow center">
+            <h1 class="title"> MATH </h1>
+        </span>
+
+        <form id="login" method="post">
+            <fieldset>
+                <legend align="right"> login </legend>
+                <div>
+                    <label for="usr"> usr: </label>
+                    <input type="text" name="username">
+                </div>
+                <div>
+                    <label for="pwd"> pwd:
+                    <input type="password" name="password">
+                </div>
+                <div class="right">
+                    <input type="submit" value=">">
+                </div>
+            </fieldset>
+        </form>
+
+        <span class="grow center">
+            <h1 class="title"> CHAT </h1>
+        </span>
+
+    <script>
+        /*** set action field to right path ***/
+        var form = document.getElementById('login');    
+        form.action = window.location.pathname;
+    </script>
+
+    </body>
+</html>

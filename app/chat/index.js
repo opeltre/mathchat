@@ -1,14 +1,13 @@
 const express = require('express'),
     path = require('path'),
-    auth = require('auth'),
-    view = require('view');
+    auth = require('auth');
 
 const io = require('./io'),
     db = require('./db');
 
 var chat = {};
 
-chat.app = (server) => {
+chat.app = (server, view) => {
     
     io(server);
     var app = express.Router();
@@ -21,7 +20,7 @@ chat.app = (server) => {
         );
 
     app.route('/t/*')
-        .get(chat.talk);
+        .get(chat.talk(view));
 
     return app;
 }
@@ -34,7 +33,6 @@ chat.listen = io;
 chat.get = 
     (req, res) => db
         .get(req.params[0])
-        .then(logthen)
         .then(msgs => res.json(msgs));
 
 chat.post = 
@@ -43,10 +41,9 @@ chat.post =
         .then(() => res.send('posted'));
 
 chat.talk = 
-    (req, res) => {
-        console.log('talk at: '+req.params[0]);
-        res.sendFile('/srv/http/mathchat/lib/chat.html');
-    }
+    view => view()
+        .script('chat')
+        .style('chat');
 
 chat.channel = 
     (req, res) => res

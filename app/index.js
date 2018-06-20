@@ -2,17 +2,17 @@
 
 const express = require('express'),
     path = require('path'),
+    fs = require('fs'),
     bodyParser = require('body-parser');
 
 const auth = require('auth'),
     cloud = require('cloud'),
     chat = require('chat'),
-    view = require('view');
+    vv = require('view/vv');
 
 module.exports = server => {
     var app = express.Router(),
-        index = () => view('index', req => ({user: req.user})),
-        STATIC = ['../static', '../lib', 'view/style', 'view/run'];
+        STATIC = ['../static', '../lib', '../dist', '../style'];
 
     app.use(
         auth.init,
@@ -21,16 +21,20 @@ module.exports = server => {
     );
 
     app.route('/')
-        .get(index())
+        .get(vv('index'))
 
     /*** /login ***/
     app.route('/login*')
-        .get(view('login'))
+        .get(vv('login'))
         .post(auth.login);
 
-    app.use('/cloud', cloud.app(index));
+    app.use('/cloud', 
+        cloud.app(vv('index').clone)
+    );
 
-    app.use('/chat', chat.app(server));
+    app.use('/chat', 
+        chat.app(server, vv('index').clone)
+    );
 
     /*** static ***/
     STATIC.forEach(dir => app.use(
