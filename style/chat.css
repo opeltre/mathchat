@@ -1,0 +1,21 @@
+style.
+  .msg-body {
+      padding: 15px;
+      border: 1px solid #aaf;
+  }
+  .msg-head span {
+    padding: 5px;
+  }
+  .date {
+    color: #999;
+  }
+  .poster {
+    color: #66d;
+  }
+  #msgs {
+    margin: 0px 60px;
+  }
+  #write {
+    margin: 10px 60px;
+    text-align: right;
+  }
