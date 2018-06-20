@@ -15,7 +15,11 @@ const html = {};
 const scripts = [
     'vdom',
     'ajax', 
-    '/dist/io.js'
+    '/dist/io.js',
+    'https://cdn.jsdelivr.net/npm/marked/marked.min.js',
+    'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js' +
+    '?config=TeX-MML-AM_CHTML',
+    'parser'
 ];
 
 const style = [
