@@ -1,3 +1,11 @@
+html, body {
+    height: 100%;
+    box-sizing: border-box;
+}
+body {
+    margin: 0px;
+    border: none;
+}
 a {
     text-decoration: none;
     color: #a54;
@@ -17,8 +25,11 @@ i {
 .grow {
     flex-grow: 1;
 }
+.stretch {
+    align-items: stretch;
+}
 .title {
-    font-family: 'RetroscapeRegular';
+    font-family: 'Retroscape';
     font-weight: normal;
     font-style: normal;
 }
@@ -34,6 +45,10 @@ i {
 #header span {
     margin: 5px;
 }
+#header img {
+    margin: 10px;
+    image-rendering: pixelated;
+}
 #files, #upload form {
     margin: 5px;
     padding: 15px;
@@ -44,9 +59,13 @@ i {
 }
 
 html * {
-    font-family: 'GlacialIndifferenceRegular';
+    font-family: 'GlacialIndifference';
     font-weight: normal;
     font-style: normal;
+}
+
+textarea, code {
+    font-family: 'iosevka';
 }
 
 button, .upload-btn {
@@ -59,8 +78,6 @@ button, .upload-btn {
 .hide{
     display: none;
 }
-
-
 
 html {
     background-color: #fff;

@@ -1,7 +1,10 @@
 <html>
     <head>
+        <link rel='shortcut icon' 
+            href="/media/images/chatM.ico" 
+            type="image/x-icon">
     </head>
-    <body>
+    <body class="flex-v">
         <div id="header" class="flex-h">
             <h1 class="title"> MATHCHAT </h1>
             <span class="grow"></span>
@@ -17,9 +20,20 @@
                 <i class="fa fa-user"></i>
                 <a href="/login"> login </a>
             </span>
+
+            <span id="psichat"></span>
+    <script>
+    ajax()
+        .get('/media/images/psichatBMP.json')
+        .then(JSON.parse)
+        .then(bmp2svg().height(50))
+        .then(x => {console.log(x); return x})
+        .then(psichat => psichat.plant('#psichat')(1));
+    </script>
+
         </div>
 
-        <div id="win"></div>
+        <div id="win" class="flex-v grow"></div>
 
     </body>
 </html>

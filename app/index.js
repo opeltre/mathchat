@@ -10,9 +10,11 @@ const auth = require('auth'),
     chat = require('chat'),
     vv = require('view/vv');
 
+const copy = require('./copy/index');
+
 module.exports = server => {
     var app = express.Router(),
-        STATIC = ['../static', '../lib', '../dist', '../style'];
+        STATIC = ['../media', '../lib', '../dist', '../style'];
 
     app.use(
         auth.init,
@@ -23,10 +25,13 @@ module.exports = server => {
     app.route('/')
         .get(vv('index'))
 
-    /*** /login ***/
     app.route('/login*')
         .get(vv('login'))
         .post(auth.login);
+
+    app.use('/copy',
+        copy.app(vv('index').clone)
+    );
 
     app.use('/cloud', 
         cloud.app(vv('index').clone)
