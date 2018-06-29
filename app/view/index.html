@@ -27,7 +27,6 @@
         .get('/media/images/psichatBMP.json')
         .then(JSON.parse)
         .then(bmp2svg().height(50))
-        .then(x => {console.log(x); return x})
         .then(psichat => psichat.plant('#psichat')(1));
     </script>
 
