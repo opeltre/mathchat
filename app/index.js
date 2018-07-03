@@ -25,6 +25,12 @@ module.exports = server => {
     app.route('/')
         .get(vv('index'))
 
+    app.route('/vv')
+        .get(
+            (req, res) => res
+                .sendFile(path.join(__dirname, '../lib/vv-examples/index.html'))
+        );
+
     app.route('/login*')
         .get(vv('login'))
         .post(auth.login);

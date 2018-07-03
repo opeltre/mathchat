@@ -5,8 +5,7 @@ module.exports = {
         name: 'mathchat',
         watch: ['./'],
         ignore_watch: [
-            './app/cloud/fs/', 
-            './app/view/run/'
+            './app/cloud/fs/',
             '.git/'
         ],
         script: 'main.js'

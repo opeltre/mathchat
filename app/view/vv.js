@@ -4,13 +4,13 @@ const fs = require('fs'),
 
 const html = {};
 ['index', 'login']
-    .forEach(
-        key => html[key] = fs
+    .forEach(key => 
+        html[key] = fs
             .readFileSync(path.join(__dirname, key + '.html'))
     );
 
 const scripts = [
-    'vdom',
+    'vv',
     'ajax', 
     '/dist/io.js',
     'https://cdn.jsdelivr.net/npm/marked/marked.min.js',
