@@ -1,6 +1,7 @@
 html, body {
     height: 100%;
     box-sizing: border-box;
+    background-color: #fff;
 }
 body {
     margin: 0px;
@@ -33,6 +34,19 @@ i {
     font-weight: normal;
     font-style: normal;
 }
+html * {
+    font-family: 'nouveau_ibm';
+    font-weight: normal;
+    font-style: normal;
+}
+
+textarea, code {
+    font-family: 'iosevka';
+}
+
+.ft0, .ft0 * {
+    font-family: 'GlacialIndifference';
+}
 .center {
     text-align: center;
 }
@@ -58,14 +72,8 @@ i {
     color: #54a;
 }
 
-html * {
-    font-family: 'GlacialIndifference';
-    font-weight: normal;
-    font-style: normal;
-}
-
-textarea, code {
-    font-family: 'iosevka';
+#win {
+    padding: 15px;
 }
 
 button, .upload-btn {
@@ -79,6 +87,50 @@ button, .upload-btn {
     display: none;
 }
 
-html {
-    background-color: #fff;
+#mailer-preview {
+    padding: 30px;
+}
+.mailer-div {
+    padding: 40px;
+    width: 600px;
+    border: 1px solid #ccc;
+    margin: 5px;
+}
+#mailer-in {
+    width: 600px;
+    min-height: 300px;
+    color: #657;
+}
+#mailer-image { 
+    border: dashed 1px #bbb;
+}
+#mailer-head table {
+    margin-bottom: 15px;
+}
+#mailer-head input {
+    font-family: 'iosevka';
+    color: #657;
+    min-width: 300px; 
+}
+#mailer-head label *{
+    color: #333;
+}
+.mailer-action {
+    text-align: center;
+    float: center;
+    margin-top: 10px;
+    padding: 15px;
+}
+.mailer-action button {
+    min-width: 100px;
+    padding: 5px;
+    background-color: #eef;
+    color: #634;
+    border: 1px solid #634;
+}
+pre {
+    background-color: #eef;
+    color: #634;
+    max-width: 600px;
+    padding: 20px;
 }

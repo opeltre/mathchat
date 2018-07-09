@@ -10,7 +10,7 @@ const auth = require('auth'),
     chat = require('chat'),
     vv = require('view/vv');
 
-const copy = require('./copy/index');
+const mailer = require('./mailer/index');
 
 module.exports = server => {
     var app = express.Router(),
@@ -35,8 +35,8 @@ module.exports = server => {
         .get(vv('login'))
         .post(auth.login);
 
-    app.use('/copy',
-        copy.app(vv('index').clone)
+    app.use('/mail',
+        mailer.app(vv('index').clone)
     );
 
     app.use('/cloud', 

@@ -6,6 +6,10 @@
     font-family:"GlacialIndifference";
     src: url("/media/fonts/glacial/GlacialIndifference-Regular.otf");
 }
+@font-face {
+    font-family:"connection";
+    src: url("/media/fonts/connection/Connection.otf");
+}
 
 @font-face {
     font-family:"hyperspace";
