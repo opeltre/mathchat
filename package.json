@@ -23,6 +23,8 @@
   },
   "homepage": "https://github.com/opeltre.com/mathchat#readme",
   "dependencies": {
+    "@opeltre/forest": "0.0.7",
+    "@opeltre/mdtex": "0.0.0",
     "auth": "file:app/auth",
     "body-parser": "^1.18.2",
     "chat": "file:app/chat",

@@ -5,12 +5,18 @@ const express = require('express'),
 const io = require('./io'),
     db = require('./db');
 
-var chat = {};
+let chat = {};
 
-chat.app = (server, view) => {
+chat.app = (view, server) => {
     
-    io(server);
-    var app = express.Router();
+    let app = express.Router();
+    if (server) io(server);
+
+    app.route('/')
+        .get(chat.channel)
+
+    app.route('/t/*')
+        .get(view().script('chat').style('chat'));
 
     app.route('/ajax/*')
         .get(chat.get)
@@ -19,16 +25,11 @@ chat.app = (server, view) => {
             chat.post
         );
 
-    app.route('/t/*')
-        .get(chat.talk(view));
-
     return app;
 }
 
-const usr = req => req.user ? req.user.usr : 'public'; 
-const logthen = x => {console.log(x); return x}
-
-chat.listen = io;
+let usr = 
+    req => req.user ? req.user.usr : 'public'; 
 
 chat.get = 
     (req, res) => db
@@ -40,13 +41,10 @@ chat.post =
         .put(req.params[0], usr(req), req.body)
         .then(() => res.send('posted'));
 
-chat.talk = 
-    view => view()
-        .script('chat')
-        .style('chat');
-
 chat.channel = 
     (req, res) => res
         .sendFile('/srv/http/mathchat/lib/channels.html');
+
+chat.listen = io; // chat.listen(server);
        
 module.exports = chat;

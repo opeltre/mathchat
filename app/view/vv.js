@@ -18,8 +18,8 @@ const scripts = [
  //   '?config=TeX-AMS_SVG',
     'mathjax',
     'dom-to-image',
-    'parser',
     'bmp2svg',
+    'parser'
 ];
 
 const style = [

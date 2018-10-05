@@ -1,5 +1,4 @@
 html, body {
-    height: 100%;
     box-sizing: border-box;
     background-color: #fff;
 }
@@ -87,47 +86,6 @@ button, .upload-btn {
     display: none;
 }
 
-#mailer-preview {
-    padding: 30px;
-}
-.mailer-div {
-    padding: 40px;
-    width: 600px;
-    border: 1px solid #ccc;
-    margin: 5px;
-}
-#mailer-in {
-    width: 600px;
-    min-height: 300px;
-    color: #657;
-}
-#mailer-image { 
-    border: dashed 1px #bbb;
-}
-#mailer-head table {
-    margin-bottom: 15px;
-}
-#mailer-head input {
-    font-family: 'iosevka';
-    color: #657;
-    min-width: 300px; 
-}
-#mailer-head label *{
-    color: #333;
-}
-.mailer-action {
-    text-align: center;
-    float: center;
-    margin-top: 10px;
-    padding: 15px;
-}
-.mailer-action button {
-    min-width: 100px;
-    padding: 5px;
-    background-color: #eef;
-    color: #634;
-    border: 1px solid #634;
-}
 pre {
     background-color: #eef;
     color: #634;

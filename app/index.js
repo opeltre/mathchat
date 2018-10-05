@@ -1,57 +1,66 @@
 // app/index.js 
-
-const express = require('express'),
+let express = require('express'),
     path = require('path'),
     fs = require('fs'),
     bodyParser = require('body-parser');
 
-const auth = require('auth'),
+let auth = require('auth'),
     cloud = require('cloud'),
     chat = require('chat'),
-    vv = require('view/vv');
+    fst = require('@opeltre/forest');
 
-const mailer = require('./mailer/index');
+let statique = [
+    '../media', '../lib', '../dist', '../style'
+];
+let scripts = [
+    'forest', 'mdtex'
+];
+let sheets = [
+    'main', 'fonts'
+];
+let doc = 
+    html => fst.doc('view/' + (html || 'index'))
+        .script(...scripts)
+        .style(...sheets);
+
 
 module.exports = server => {
-    var app = express.Router(),
-        STATIC = ['../media', '../lib', '../dist', '../style'];
+    let app = express.Router();
+    return __.do(
+        Parse,
+        Routes,
+        Statique
+    )(app);
+}
 
-    app.use(
-        auth.init,
-        bodyParser.json(),
-        bodyParser.urlencoded({extended:true})
-    );
+
+function Routes (app) {
 
     app.route('/')
-        .get(vv('index'))
-
-    app.route('/vv')
-        .get(
-            (req, res) => res
-                .sendFile(path.join(__dirname, '../lib/vv-examples/index.html'))
-        );
+        .get(doc('index').style('cloud'));
 
     app.route('/login*')
-        .get(vv('login'))
+        .get(doc('login').style('login'));
         .post(auth.login);
 
-    app.use('/mail',
-        mailer.app(vv('index').clone)
-    );
+    app.use('/cloud', cloud.app(doc));
+    app.use('/mail', mailer.app(doc));
+    app.use('/chat', chat.app(doc).listen(server));
+}
 
-    app.use('/cloud', 
-        cloud.app(vv('index').clone)
-    );
 
-    app.use('/chat', 
-        chat.app(server, vv('index').clone)
-    );
-
-    /*** static ***/
-    STATIC.forEach(dir => app.use(
+function Statique (app, S=statique) {
+    S.forEach(dir => app.use(
         dir.replace(/^\W*/,'/'), 
         express.static(path.join(__dirname, dir))
     ));
-    
-    return app;
-};
+}
+
+function Parse (app) {
+    app.use(
+        auth.init, 
+        bodyParser.json(),
+        bodyParser.urlencoded({extended: true})
+    );
+}
+
