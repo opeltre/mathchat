@@ -1,5 +1,8 @@
-var srv = require('express')(),
+let port = 8083
+    srv = require('express')(),
     app = require('./app/index.js');
 
-srv.use('/', app(srv.listen(8083)));
+console.log('mathchat @: '+port);
+
+srv.use('/', app(srv.listen(port)));
 

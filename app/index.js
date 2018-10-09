@@ -7,7 +7,10 @@ let express = require('express'),
 let auth = require('auth'),
     cloud = require('cloud'),
     chat = require('chat'),
-    fst = require('@opeltre/forest');
+    mailer = require('mailer'),
+    fst = require('../dist/forest').cd(__dirname),
+    __ = fst.__;
+
 
 let statique = [
     '../media', '../lib', '../dist', '../style'
@@ -16,7 +19,8 @@ let scripts = [
     'forest', 'mdtex'
 ];
 let sheets = [
-    'main', 'fonts'
+    'main', 'fonts',
+    '/media/fa/fontawesome-all.css'
 ];
 let doc = 
     html => fst.doc('view/' + (html || 'index'))
@@ -28,24 +32,27 @@ module.exports = server => {
     let app = express.Router();
     return __.do(
         Parse,
-        Routes,
+        Routes(server),
         Statique
     )(app);
 }
 
 
-function Routes (app) {
+function Routes (server) {
 
-    app.route('/')
-        .get(doc('index').style('cloud'));
+    return (app) => {
 
-    app.route('/login*')
-        .get(doc('login').style('login'));
-        .post(auth.login);
+        app.route('/')
+            .get(doc('index').style('cloud'));
 
-    app.use('/cloud', cloud.app(doc));
-    app.use('/mail', mailer.app(doc));
-    app.use('/chat', chat.app(doc).listen(server));
+        app.route('/login*')
+            .get(doc('login').style('login'))
+            .post(auth.login);
+
+        app.use('/cloud', cloud.app(doc));
+        app.use('/mail', mailer.app(doc));
+        app.use('/chat', chat.io(server).app(doc));
+    }
 }
 
 
@@ -63,4 +70,3 @@ function Parse (app) {
         bodyParser.urlencoded({extended: true})
     );
 }
-

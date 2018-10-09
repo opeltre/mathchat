@@ -4,6 +4,7 @@ html, body {
 }
 body {
     margin: 0px;
+    padding: 10px;
     border: none;
 }
 a {

@@ -7,6 +7,13 @@ const io = require('./io'),
 
 let chat = {};
 
+let __ = require('@opeltre/forest').__;
+
+chat.io = srv => {
+    io(srv);
+    return chat;
+}
+
 chat.app = (view, server) => {
     
     let app = express.Router();
@@ -16,7 +23,7 @@ chat.app = (view, server) => {
         .get(chat.channel)
 
     app.route('/t/*')
-        .get(view().script('chat').style('chat'));
+        .get(view().script('/dist/io.js', 'chat').style('chat'));
 
     app.route('/ajax/*')
         .get(chat.get)
@@ -38,13 +45,17 @@ chat.get =
 
 chat.post = 
     (req, res) => db
+/*        .parse({
+            name: req => req.params[0],
+            usr,
+            body
+        })*/
         .put(req.params[0], usr(req), req.body)
+        .then(() => __.logs('user '+ usr(req) + ' posted: ')(req))
         .then(() => res.send('posted'));
 
 chat.channel = 
     (req, res) => res
         .sendFile('/srv/http/mathchat/lib/channels.html');
-
-chat.listen = io; // chat.listen(server);
        
 module.exports = chat;

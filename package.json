@@ -23,8 +23,8 @@
   },
   "homepage": "https://github.com/opeltre.com/mathchat#readme",
   "dependencies": {
-    "@opeltre/forest": "0.0.7",
-    "@opeltre/mdtex": "0.0.0",
+    "@opeltre/forest": "0.0.8",
+    "@opeltre/mdtex": "0.0.4",
     "auth": "file:app/auth",
     "body-parser": "^1.18.2",
     "chat": "file:app/chat",
@@ -35,6 +35,7 @@
     "express": "^4.16.3",
     "express-session": "^1.15.6",
     "fs": "0.0.1-security",
+    "mailer": "file:app/mailer",
     "multer": "^1.3.0",
     "nodemailer": "^4.6.7",
     "passport": "^0.4.0",
@@ -43,7 +44,6 @@
     "pug": "^2.0.3",
     "rethinkdbdash": "^2.3.31",
     "session-rethinkdb": "^2.0.1",
-    "socket.io": "^2.1.1",
-    "view": "file:app/view"
+    "socket.io": "^2.1.1"
   }
 }
