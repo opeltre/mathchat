@@ -8,7 +8,7 @@ let auth = require('auth'),
     cloud = require('cloud'),
     chat = require('chat'),
     mailer = require('mailer'),
-    fst = require('../dist/forest').cd(__dirname),
+    fst = require('../dist/fst').cd(__dirname),
     __ = fst.__;
 
 
@@ -16,7 +16,8 @@ let statique = [
     '../media', '../lib', '../dist', '../style'
 ];
 let scripts = [
-    'forest', 'mdtex'
+    '/dist/fst/bundle.js', 'mdtex', 'mathjaxConf',
+    'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js'
 ];
 let sheets = [
     'main', 'fonts',

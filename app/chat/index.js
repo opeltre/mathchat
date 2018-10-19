@@ -5,6 +5,8 @@ const express = require('express'),
 const io = require('./io'),
     db = require('./db');
 
+let fst = require('../../dist/fst');
+
 let chat = {};
 
 let __ = require('@opeltre/forest').__;
@@ -20,10 +22,13 @@ chat.app = (view, server) => {
     if (server) io(server);
 
     app.route('/')
-        .get(chat.channel)
+        .get(chat.channel(view))
 
     app.route('/t/*')
-        .get(view().script('/dist/io.js', 'chat').style('chat'));
+        .get(view()
+            .script('/dist/io.js', 'chat')
+            .style('chat')
+        );
 
     app.route('/ajax/*')
         .get(chat.get)
@@ -54,8 +59,13 @@ chat.post =
         .then(() => __.logs('user '+ usr(req) + ' posted: ')(req))
         .then(() => res.send('posted'));
 
-chat.channel = 
-    (req, res) => res
-        .sendFile('/srv/http/mathchat/lib/channels.html');
+chat.channel = view => 
+    view().use(
+        fst('a', {href: '/chat/t/a'}, ['room a']),
+        fst('a', {href: '/chat/t/b'}, ['room b'])
+    )
+//    (req, res) => res
+//        .redirect('/chat/t/a')
+//        .sendFile('/srv/http/mathchat/lib/channels.html');
        
 module.exports = chat;
