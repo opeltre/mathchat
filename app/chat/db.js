@@ -1,10 +1,28 @@
 const r = require('../rdb.js'),
     db = r.db.table('chat');
 
-const stamp = (msg, usr) => Object.assign(msg, {
-    date: Date(),
-    usr: usr
-});
+/*
+msgs:
+------------------------------------------------------
+[id]    [room]      [date]      from    to      body
+------------------------------------------------------
+hash    url         int         usr     usr     str
+------------------------------------------------------
+
+rooms:
+-----------------------------------------------
+[id]    [users]     (msgs)      name    owner
+-----------------------------------------------
+url     [usr]       (join)      str     usr 
+-----------------------------------------------
+*/
+
+let stamp = (msg, usr) => 
+    Object.assign(msg, {
+        date: Date(),
+        time: Date.now(),
+        usr: usr
+    });
 
 exports.put = (id, usr, msg) => db
     .get(id)
