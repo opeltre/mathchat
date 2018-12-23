@@ -7,6 +7,8 @@ let connect =
 
     socket => {
 
+        let usr = socket.request.user.usr;
+
         let getThread = 
             id => db.getThread(+id)
                 .then(t => socket.emit('msg', t.msgs));
@@ -15,7 +17,7 @@ let connect =
             id => socket.join(id);
 
         let putMsg = 
-            m => db.putMsg(m, socket.request.user.usr);
+            m => db.putMsg(m, usr); 
 
         socket.on('subscribe', __.do(getThread, joinThread));
         socket.on('send', putMsg);

@@ -11,15 +11,15 @@ exports.listen = io;
 
 exports.app = 
 
-    view => {
+    doc => {
     
         let app = express.Router();
 
         app.route('/')
-            .get(getIndex(view))
+            .get(getIndex(doc))
 
         app.route('/t/*')
-            .get(view()
+            .get(doc()
                 .script('/dist/io.js', 'chat')
                 .style('chat')
             );
@@ -30,8 +30,8 @@ exports.app =
 let usr = 
     req => req.user ? req.user.usr : 'public'; 
 
-let getIndex = view => 
-    view().use(
+let getIndex = doc => 
+    doc().use(
         fst('a', {href: '/chat/t/0'}, ['room a']),
         fst('a', {href: '/chat/t/1'}, ['room b'])
     )
