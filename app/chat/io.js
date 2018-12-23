@@ -9,6 +9,13 @@ let connect =
 
         let usr = socket.request.user.usr;
 
+        let handshake = 
+            () => socket.emit('usr', usr);
+
+        let getByUser = 
+            () => db.getByUser(usr)
+                .then(ts => socket.emit('threads', ts));
+
         let getThread = 
             id => db.getThread(+id)
                 .then(t => socket.emit('msg', t.msgs));
@@ -19,6 +26,7 @@ let connect =
         let putMsg = 
             m => db.putMsg(m, usr); 
 
+        __.do(handshake, getByUser)()
         socket.on('subscribe', __.do(getThread, joinThread));
         socket.on('send', putMsg);
 
@@ -26,6 +34,7 @@ let connect =
 
 
 let emit = 
+
     msg => io
         .to(msg.to)
         .emit('msg', [msg]);

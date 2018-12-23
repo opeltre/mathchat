@@ -20,7 +20,7 @@ exports.app =
 
         app.route('/t/*')
             .get(doc()
-                .script('/dist/io.js', 'chat')
+                .script('/dist/io.js', 'chat/index', 'chat/view')
                 .style('chat')
             );
 
