@@ -1,16 +1,41 @@
-const io = require('socket.io')(),
+let io = require('socket.io')(),
     auth = require('auth'),
+    __ = require('@opeltre/forest').__,
     db = require('./db');
 
-const connect = socket => socket
-    .on('subscribe', id => socket.join(id));
+let connect = 
 
-const send = change => io
-    .to(change.new_val.id)
-    .emit('msg', change.new_val.msgs.pop());
+    socket => {
 
-db.change(send);
-io.use(auth.io);
-io.on('connection', connect);
+        let getThread = 
+            id => db.getThread(+id)
+                .then(t => socket.emit('msg', t.msgs));
 
-module.exports = server => io.listen(server);
+        let joinThread = 
+            id => socket.join(id);
+
+        let putMsg = 
+            m => db.putMsg(m, socket.request.user.usr);
+
+        socket.on('subscribe', __.do(getThread, joinThread));
+        socket.on('send', putMsg);
+
+    };
+
+
+let emit = 
+    msg => io
+        .to(msg.to)
+        .emit('msg', [msg]);
+
+
+module.exports = 
+
+    server => {
+
+        io.use(auth.io);
+        io.on('connection', connect);
+        db.onMsg(emit);
+        io.listen(server);
+
+    };

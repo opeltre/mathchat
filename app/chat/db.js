@@ -1,65 +1,99 @@
 const r = require('../rdb.js'),
-    db = r.db.table('chat');
+    db = r.db;
 
-/*
-msgs:
-------------------------------------------------------
-[id]    [room]      [date]      from    to      body
-------------------------------------------------------
-hash    url         int         usr     usr     str
-------------------------------------------------------
+/***
+exports
 
-rooms:
------------------------------------------------
-[id]    [users]     (msgs)      name    owner
------------------------------------------------
-url     [usr]       (join)      str     usr 
------------------------------------------------
-*/
+    .putThread  :: t -> usr -> Put thread
+    .getThread  :: id -> Get thread
+    .getByUser  :: usr -> Get [thread]
 
-let stamp = (msg, usr) => 
-    Object.assign(msg, {
-        date: Date(),
-        time: Date.now(),
-        usr: usr
+    .putMsg     :: m -> usr -> Put msg
+    .onMsg      :: (msg -> a) -> On msg 
+
+   msg:
+----------------------------------------
+[id]    (to)    from    body    date   
+----------------------------------------
+hash    url     usr     str     int    
+----------------------------------------
+         |
+         `---------.
+                   |        
+    thread:        V
+----------------------------------------------------
+[id]   (users)   *msgs*    name    admin     date     last
+----------------------------------------------------
+url    [usr]     [msg]     str     [usr]     int      msg
+----------------------------------------------------
+
+***/
+
+//  Thread : t -> usr -> thread
+let Thread = (t, usr) => 
+    Object.assign(t, {
+        admin:  [usr],
+        date:   Date.now()
     });
 
-exports.put = (id, usr, msg) => db
-    .get(id)
-    .update(
-        r => ({ msgs : r('msgs').append(stamp(msg, usr)) })
-    )
-    .run(r.cxn);
+//  .putThread : t -> usr -> Put thread
+exports.putThread = 
+    (t, usr) => db.table('threads')
+        .insert(Thread(t, usr))
+        .run(r.cxn);
 
-exports.get = (id, user) => db
-    .get(id)
-    .pluck('msgs')
-    .run(r.cxn)
-    .then(d => d.msgs)
+let getMsgs = 
+    thread => db.table('msgs')
+        .getAll(thread, {index: 'to'})
+        .orderBy(r.asc('date'))
+        .coerceTo('array');
 
-const getChannels = (user) => db
-    .getAll(user, {index: 'users'})
-    .run(r.cxn)
-    .then(c => c.toArray())
+//  .getThread : id -> Get thread
+exports.getThread = 
+    id => db.table('threads')
+        .get(id)
+        .merge({msgs: getMsgs(id)})
+        .run(r.cxn);
 
-exports.getChannels = (user) => Promise
-    .all([user, 'public'].map(getChannels))
-    .then(([channels, pubchannels]) => ({channels, pubchannels}));
+//  .getByUser : usr -> Get [thread]
+exports.getByUser = 
+    usr => db.table('threads')
+        .getAll(usr, {index: 'users'})
+        .coerceTo('array')
+        .run(r.cxn);
 
-exports.putChannel = (users, name) => db
-    .insert({
-        users,
-        name,
-        msgs: []
+//  Msg :  m -> usr -> msg
+let Msg = (m, usr) => 
+    Object.assign(m, {
+        from:   usr,
+        date:   Date.now()
     });
 
-const onchange = (listener) => db
-    .changes()
-    .run(r.cxn)
-    .then(cursor => cursor.each(
-        (err, x) => listener(x)
-    ));
+let hasUser =
+    (id, usr) => db.table('threads').get(id)('users').contains(usr);
 
-exports.change = (listener) => r.connected
-    .then(() => onchange(listener));
-    
+let putMsg =
+    msg => r
+        .branch(
+            hasUser(msg.to, msg.from),
+            db.table('msgs').insert(msg),
+            r.error('unallowed user')
+        )
+        .run(r.cxn);
+
+//  .putMsg : m -> usr -> Put msg
+exports.putMsg = 
+    (m, usr) => putMsg(Msg(m, usr));
+
+let onMsg = 
+    listener => db.table('msgs')
+        .changes()
+        .run(r.cxn)
+        .then(csr => csr.each(
+            (err, x) => listener(x.new_val)
+        ));
+
+//  .onMsg : (msg -> a) -> On msg
+exports.onMsg = 
+    listener => r.connected
+        .then(() => onMsg(listener));

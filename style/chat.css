@@ -1,21 +1,39 @@
-style.
-  .msg-body {
-      padding: 15px;
-      border: 1px solid #aaf;
-  }
-  .msg-head span {
+.msg-body {
+      padding: 30px;
+      background-color : #def;
+      color: #543;
+      width: 400px;
+      display: inline-block;
+}
+
+.msg {
+    margin: 15px;
+}
+ 
+.msg-head span {
     padding: 5px;
-  }
-  .date {
+}
+.date {
     color: #999;
-  }
-  .poster {
+}
+.poster {
     color: #66d;
-  }
-  #msgs {
+}
+.center {
+    min-width: 700px;
+}
+#msgs {
     margin: 0px 60px;
-  }
-  #write {
+}
+#write {
     margin: 10px 60px;
     text-align: right;
-  }
+}
+#write textarea {
+    margin: 15px;
+    min-width: 460px;
+    min-height: 150px;
+}
+#write button {
+    margin: 0px 15px;
+}
