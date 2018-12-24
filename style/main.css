@@ -4,7 +4,7 @@ html, body {
 }
 body {
     margin: 0px;
-    padding: 10px;
+    padding: 0px;
     border: none;
 }
 a {
@@ -34,6 +34,10 @@ i {
     font-weight: normal;
     font-style: normal;
 }
+#header .title {
+    font-size: 18pt;
+    margin: 6px;
+}
 html * {
     font-family: 'nouveau_ibm';
     font-weight: normal;
@@ -56,6 +60,9 @@ textarea, code {
 .left {
     text-align: left;
 }
+#header {
+    flex: none;
+}
 #header span {
     margin: 5px;
 }
@@ -73,7 +80,7 @@ textarea, code {
 }
 
 #win {
-    padding: 15px;
+    padding: 0px;
 }
 
 button, .upload-btn {

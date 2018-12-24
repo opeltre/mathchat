@@ -18,7 +18,7 @@ let connect =
 
         let getThread = 
             id => db.getThread(+id)
-                .then(t => socket.emit('msg', t.msgs));
+                .then(t => socket.emit('join', t));
 
         let joinThread = 
             id => socket.join(id);

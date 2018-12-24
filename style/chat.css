@@ -1,39 +1,77 @@
-.msg-body {
-      padding: 30px;
-      background-color : #def;
-      color: #543;
-      width: 400px;
-      display: inline-block;
+.scroll-y {
+    overflow-y: scroll;
 }
-
-.msg {
-    margin: 15px;
+html, body {
+    height: 100%;
+    max-height: 100%;
 }
- 
-.msg-head span {
-    padding: 5px;
+#win {
+    height: 0;
 }
-.date {
-    color: #999;
+#main {
+    height: 100%;
+    justify-content: space-around;
 }
-.poster {
-    color: #66d;
-}
-.center {
-    min-width: 700px;
+#main h3 {
+    text-align: center;
 }
 #msgs {
     margin: 0px 60px;
 }
-#write {
+#type {
     margin: 10px 60px;
     text-align: right;
 }
-#write textarea {
-    margin: 15px;
-    min-width: 460px;
+
+
+
+.msg {
+    margin: 2px;
+}
+.msg-head span {
+    margin: 0 5;
+    font-size: 10pt;
+}
+.date {
+    color: #bbc;
+}
+.poster {
+    color: #66d;
+}
+.msg-body {
+      padding: 15px;
+      color: #543;
+      width: 400px;
+      display: inline-block;
+      border: 1px solid #dde;
+}
+.msg-body, #type textarea {
+    font-size:  16;
+}
+
+#type textarea {
+    margin:     15px;
+    min-width:  460px;
     min-height: 150px;
 }
-#write button {
+#type button {
     margin: 0px 15px;
 }
+
+
+
+.thread {
+    width: 350px;
+    padding: 10px;
+    border-bottom: 1px solid #dde;
+}
+.thread-name {
+    font-size:  18;
+    color:      #66d;
+    margin-right:   20px;
+}
+.thread-users span {
+    font-size:  14;
+    margin-left: 15px;
+}
+
